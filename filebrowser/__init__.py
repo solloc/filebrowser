@@ -6,6 +6,7 @@ from PyQt5.QtGui import QPixmap
 
 __version__ = '0.1.0'
 
+# Icon set: https://p.yusukekamiyamane.com/
 
 class Ui(QtWidgets.QMainWindow):
     """UI main component"""
@@ -30,6 +31,9 @@ class Ui(QtWidgets.QMainWindow):
 
         # "D:\Data\workspaces\example\photos\amin-hasani-ma4EUsH56KQ-unsplash.jpg"
 
+        self.menu_action_open = self.findChild(QtWidgets.QAction, 'actionOpen')
+        self.menu_action_open.triggered.connect(self.action_open)
+
         self.show()
 
     def push_button_pressed(self):
@@ -47,6 +51,17 @@ class Ui(QtWidgets.QMainWindow):
         pixmap = QPixmap('D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg')
         #self.image_label.setPixmap(pixmap)
         self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))        
+    
+    def action_open(self):
+        print('open file')
+        file_name = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', 'All files (*.*)')
+        print('file: ' + str(file_name))
+        print('file name: ' + str(file_name[0]))
+
+
+      #fname = QFileDialog.getOpenFileName(self, 'Open file', 
+       #  'c:\\',"Image files (*.jpg *.gif)")
+      #self.le.setPixmap(QPixmap(fname))        
         
 
 
