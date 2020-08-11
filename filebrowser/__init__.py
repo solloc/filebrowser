@@ -14,18 +14,14 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
         uic.loadUi('filebrowser/main.ui', self)
 
-        #self.button = self.findChild(QtWidgets.QPushButton, 'pushButton1')
-        #self.button.clicked.connect(self.push_button_pressed)
-
-        #self.label = self.findChild(QtWidgets.QLabel, 'label1')
-
         self.image_label = self.findChild(QtWidgets.QLabel, 'imageLabel1')
         width = self.image_label.width()
         height = self.image_label.height()
         print('w:' + str(width) + '; h:' + str(height))
 
         # self.image_label.setScaledContents(True)
-        pixmap = QPixmap('D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg')
+        self.current_image_path = 'D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg'
+        pixmap = QPixmap(self.current_image_path)
         #self.image_label.setPixmap(pixmap)
         self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
 
@@ -48,7 +44,7 @@ class Ui(QtWidgets.QMainWindow):
         # print('w:' + str(width) + '; h:' + str(height))
 
         # self.image_label.setScaledContents(True)
-        pixmap = QPixmap('D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg')
+        pixmap = QPixmap(self.current_image_path)
         #self.image_label.setPixmap(pixmap)
         self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))        
     
@@ -56,13 +52,21 @@ class Ui(QtWidgets.QMainWindow):
         print('open file')
         file_name = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', 'All files (*.*)')
         print('file: ' + str(file_name))
-        print('file name: ' + str(file_name[0]))
+        print('file name: ' + str(file_name[0]))        
+
+        # print('window resized')
+        width = self.image_label.width()
+        height = self.image_label.height()
+        # print('w:' + str(width) + '; h:' + str(height))
+
+        self.current_image_path = file_name[0]
+
+        # self.image_label.setScaledContents(True)
+        pixmap = QPixmap(self.current_image_path)
+        #self.image_label.setPixmap(pixmap)
+        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))                
 
 
-      #fname = QFileDialog.getOpenFileName(self, 'Open file', 
-       #  'c:\\',"Image files (*.jpg *.gif)")
-      #self.le.setPixmap(QPixmap(fname))        
-        
 
 
 def main():
