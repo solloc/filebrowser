@@ -13,17 +13,19 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
         uic.loadUi('filebrowser/main.ui', self)
 
-        self.button = self.findChild(QtWidgets.QPushButton, 'pushButton1')
-        self.button.clicked.connect(self.push_button_pressed)
+        #self.button = self.findChild(QtWidgets.QPushButton, 'pushButton1')
+        #self.button.clicked.connect(self.push_button_pressed)
 
-        self.label = self.findChild(QtWidgets.QLabel, 'label1')
+        #self.label = self.findChild(QtWidgets.QLabel, 'label1')
 
         self.image_label = self.findChild(QtWidgets.QLabel, 'imageLabel1')
         width = self.image_label.width()
         height = self.image_label.height()
+        print('w:' + str(width) + '; h:' + str(height))
 
         # self.image_label.setScaledContents(True)
         pixmap = QPixmap('D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg')
+        #self.image_label.setPixmap(pixmap)
         self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
 
         # "D:\Data\workspaces\example\photos\amin-hasani-ma4EUsH56KQ-unsplash.jpg"
@@ -33,7 +35,19 @@ class Ui(QtWidgets.QMainWindow):
     def push_button_pressed(self):
         """test method for button"""
         print('push button pressed')
-        self.label.setText('one more text')
+        #self.label.setText('one more text')
+    
+    def resizeEvent(self, event):
+        # print('window resized')
+        width = self.image_label.width()
+        height = self.image_label.height()
+        # print('w:' + str(width) + '; h:' + str(height))
+
+        # self.image_label.setScaledContents(True)
+        pixmap = QPixmap('D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg')
+        #self.image_label.setPixmap(pixmap)
+        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))        
+        
 
 
 def main():
