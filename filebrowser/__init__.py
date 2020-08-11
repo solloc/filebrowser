@@ -31,6 +31,9 @@ class Ui(QtWidgets.QMainWindow):
         self.menu_action_open = self.findChild(QtWidgets.QAction, 'actionOpen')
         self.menu_action_open.triggered.connect(self.action_open)
 
+        self.source_directory = "D:\\Data\\workspaces\\example\\photos"
+        self.analyze_directory()
+
         self.show()
 
     def push_button_pressed(self):
@@ -55,8 +58,7 @@ class Ui(QtWidgets.QMainWindow):
         directory_name = QtWidgets.QFileDialog.getExistingDirectory(self, 'Open directory', 'c:\\')
          #       directory_name = getExistingDirectory(self, 'Open directory', 'c:\\', QFileDialog::Options options = ShowDirsOnly)
         print('directory: ' + str(directory_name))
-
-"""         print('file: ' + str(file_name))
+        """         print('file: ' + str(file_name))
         print('file name: ' + str(file_name[0]))        
 
         # print('window resized')
@@ -71,8 +73,23 @@ class Ui(QtWidgets.QMainWindow):
         #self.image_label.setPixmap(pixmap)
         self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))                 """
 
+    def analyze_directory(self):
+        print('analyzing directory \'' + str(self.source_directory) + '\'')
+        self.files = []
 
+        self.scantree(self.source_directory)
 
+        # print(self.files)
+    
+    def scantree(self, target_directory):
+        with os.scandir(target_directory) as it:
+            for entry in it:
+                if entry.is_file():
+                    file_name = (os.path.join(target_directory, entry.name))
+                    print(file_name)
+                    self.files.append(file_name)
+                elif entry.is_dir():
+                    self.scantree(os.path.join(target_directory, entry.name))
 
 def main():
     """main executable"""
