@@ -11,10 +11,13 @@ class Ui(QtWidgets.QMainWindow):
         self.button = self.findChild(QtWidgets.QPushButton, 'pushButton1')
         self.button.clicked.connect(self.pushButtonPressed)
 
+        self.label = self.findChild(QtWidgets.QLabel, 'label1')
+
         self.show()
 
     def pushButtonPressed(self):
         print('push button pressed')
+        self.label.setText('one more text')
 
 
 def main():
