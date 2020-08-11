@@ -1,6 +1,7 @@
 """Main module of the file browser"""
 
 import sys
+import os
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QPixmap
 
@@ -50,8 +51,12 @@ class Ui(QtWidgets.QMainWindow):
     
     def action_open(self):
         print('open file')
-        file_name = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', 'All files (*.*)')
-        print('file: ' + str(file_name))
+        #file_name = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', 'All files (*.*)')
+        directory_name = QtWidgets.QFileDialog.getExistingDirectory(self, 'Open directory', 'c:\\')
+         #       directory_name = getExistingDirectory(self, 'Open directory', 'c:\\', QFileDialog::Options options = ShowDirsOnly)
+        print('directory: ' + str(directory_name))
+
+"""         print('file: ' + str(file_name))
         print('file name: ' + str(file_name[0]))        
 
         # print('window resized')
@@ -64,7 +69,7 @@ class Ui(QtWidgets.QMainWindow):
         # self.image_label.setScaledContents(True)
         pixmap = QPixmap(self.current_image_path)
         #self.image_label.setPixmap(pixmap)
-        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))                
+        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))                 """
 
 
 
@@ -72,6 +77,9 @@ class Ui(QtWidgets.QMainWindow):
 def main():
     """main executable"""
     print('start filebrowser')
+
+    os.environ["QT_LOGGING_RULES"] = "qt.gui.icc=false"
+
     app = QtWidgets.QApplication(sys.argv)
     window = Ui()
     #Ui()
