@@ -7,7 +7,15 @@ class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super(Ui, self).__init__()
         uic.loadUi('filebrowser/main.ui', self)
+
+        self.button = self.findChild(QtWidgets.QPushButton, 'pushButton1')
+        self.button.clicked.connect(self.pushButtonPressed)
+
         self.show()
+
+    def pushButtonPressed(self):
+        print('push button pressed')
+
 
 def main():
     print('start filebrowser')
