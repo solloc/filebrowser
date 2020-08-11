@@ -2,6 +2,7 @@
 
 import sys
 import os
+import random
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QPixmap
 
@@ -15,16 +16,7 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
         uic.loadUi('filebrowser/main.ui', self)
 
-        self.image_label = self.findChild(QtWidgets.QLabel, 'imageLabel1')
-        width = self.image_label.width()
-        height = self.image_label.height()
-        print('w:' + str(width) + '; h:' + str(height))
 
-        # self.image_label.setScaledContents(True)
-        self.current_image_path = 'D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg'
-        pixmap = QPixmap(self.current_image_path)
-        #self.image_label.setPixmap(pixmap)
-        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
 
         # "D:\Data\workspaces\example\photos\amin-hasani-ma4EUsH56KQ-unsplash.jpg"
 
@@ -34,6 +26,20 @@ class Ui(QtWidgets.QMainWindow):
         self.source_directory = "D:\\Data\\workspaces\\example\\photos"
         self.analyze_directory()
 
+        self.image_label = self.findChild(QtWidgets.QLabel, 'imageLabel1')
+        width = self.image_label.width()
+        height = self.image_label.height()
+        print('w:' + str(width) + '; h:' + str(height))
+
+        # self.image_label.setScaledContents(True)
+        # self.current_image_path = 'D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg'
+        image_index = random.randrange(0, len(self.files)-1)
+        self.current_image_path = self.files[image_index]
+
+        pixmap = QPixmap(self.current_image_path)
+        #self.image_label.setPixmap(pixmap)
+        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))        
+
         self.show()
 
     def push_button_pressed(self):
@@ -42,6 +48,9 @@ class Ui(QtWidgets.QMainWindow):
         #self.label.setText('one more text')
     
     def resizeEvent(self, event):
+        self.resize_image()
+    
+    def resize_image(self):
         # print('window resized')
         width = self.image_label.width()
         height = self.image_label.height()
@@ -50,7 +59,7 @@ class Ui(QtWidgets.QMainWindow):
         # self.image_label.setScaledContents(True)
         pixmap = QPixmap(self.current_image_path)
         #self.image_label.setPixmap(pixmap)
-        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))        
+        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))           
     
     def action_open(self):
         print('open file')
