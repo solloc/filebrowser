@@ -3,6 +3,7 @@
 import sys
 import os
 import random
+from filebrowser.file import File
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QPixmap
 
@@ -16,9 +17,8 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
         uic.loadUi('filebrowser/main.ui', self)
 
-
-
-        # "D:\Data\workspaces\example\photos\amin-hasani-ma4EUsH56KQ-unsplash.jpg"
+        self.file = File()
+        self.file.root_dir = "D:\\Data\\workspaces\\example\\photos"
 
         self.menu_action_open = self.findChild(QtWidgets.QAction, 'actionOpen')
         self.menu_action_open.triggered.connect(self.action_open)
@@ -26,106 +26,42 @@ class Ui(QtWidgets.QMainWindow):
         self.tool_action_next = self.findChild(QtWidgets.QAction, 'action_next')
         self.tool_action_next.triggered.connect(self.next_image)
 
-        # self.label_status_bar = self.findChild(QtWidgets.QStatusBar, 'label_status_bar')
-
         self.status_bar = self.findChild(QtWidgets.QStatusBar, 'status_bar')
 
         self.label_status_bar = QtWidgets.QLabel()
 
         self.status_bar.addPermanentWidget(self.label_status_bar)
-        # self.status_bar.showMessage('some message')
-
-        self.source_directory = "D:\\Data\\workspaces\\example\\photos"
-        self.analyze_directory()
 
         self.image_label = self.findChild(QtWidgets.QLabel, 'imageLabel1')
         width = self.image_label.width()
         height = self.image_label.height()
         print('w:' + str(width) + '; h:' + str(height))
 
-        # self.image_label.setScaledContents(True)
-        # self.current_image_path = 'D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg'
-        image_index = random.randrange(0, len(self.files)-1)
-        self.current_image_path = self.files[image_index]
-
-        pixmap = QPixmap(self.current_image_path)
-        #self.image_label.setPixmap(pixmap)
-        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))        
+        pixmap = QPixmap(self.file.get_current_file())
+        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
 
         self.show()
-
-    def push_button_pressed(self):
-        """test method for button"""
-        print('push button pressed')
-        #self.label.setText('one more text')
     
     def resizeEvent(self, event):
         self.resize_image()
     
     def resize_image(self):
-        # print('window resized')
         width = self.image_label.width()
         height = self.image_label.height()
-        # print('w:' + str(width) + '; h:' + str(height))
-
-        # self.image_label.setScaledContents(True)
-        pixmap = QPixmap(self.current_image_path)
-        #self.image_label.setPixmap(pixmap)
-        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))           
+        pixmap = QPixmap(self.file.get_current_file())
+        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
     
     def action_open(self):
         print('open file')
-        #file_name = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', 'c:\\', 'All files (*.*)')
         directory_name = QtWidgets.QFileDialog.getExistingDirectory(self, 'Open directory', 'c:\\')
-         #       directory_name = getExistingDirectory(self, 'Open directory', 'c:\\', QFileDialog::Options options = ShowDirsOnly)
-        print('directory: ' + str(directory_name))
-        """         print('file: ' + str(file_name))
-        print('file name: ' + str(file_name[0]))        
-
-        # print('window resized')
-        width = self.image_label.width()
-        height = self.image_label.height()
-        # print('w:' + str(width) + '; h:' + str(height))
-
-        self.current_image_path = file_name[0]
-
-        # self.image_label.setScaledContents(True)
-        pixmap = QPixmap(self.current_image_path)
-        #self.image_label.setPixmap(pixmap)
-        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))                 """
-
-    def analyze_directory(self):
-        print('analyzing directory \'' + str(self.source_directory) + '\'')
-        self.files = []
-
-        self.scantree(self.source_directory)
-
-        # print(self.files)
-    
-    def scantree(self, target_directory):
-        with os.scandir(target_directory) as it:
-            for entry in it:
-                if entry.is_file():
-                    file_name = (os.path.join(target_directory, entry.name))
-                    print(file_name)
-                    self.files.append(file_name)
-                elif entry.is_dir():
-                    self.scantree(os.path.join(target_directory, entry.name))
+        self.file.root_dir = directory_name
     
     def next_image(self):
         """ next image """
-        # print('next image')
-        # self.image_label.setScaledContents(True)
-        # self.current_image_path = 'D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg'
+        self.file.next()
+        self.label_status_bar.setText(str(self.file.get_current_file_number()) + '/' + str(self.file.get_total_file_number()))
 
-        total_images = len(self.files)
-
-        image_index = random.randrange(0, total_images-1)
-        self.label_status_bar.setText(str(image_index + 1) + '/' + str(total_images))
-        self.current_image_path = self.files[image_index]
-
-        pixmap = QPixmap(self.current_image_path)
-        #self.image_label.setPixmap(pixmap)
+        pixmap = QPixmap(self.file.get_current_file())
         width = self.image_label.width()
         height = self.image_label.height()
         self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))               
