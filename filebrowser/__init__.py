@@ -26,6 +26,15 @@ class Ui(QtWidgets.QMainWindow):
         self.tool_action_next = self.findChild(QtWidgets.QAction, 'action_next')
         self.tool_action_next.triggered.connect(self.next_image)
 
+        # self.label_status_bar = self.findChild(QtWidgets.QStatusBar, 'label_status_bar')
+
+        self.status_bar = self.findChild(QtWidgets.QStatusBar, 'status_bar')
+
+        self.label_status_bar = QtWidgets.QLabel()
+
+        self.status_bar.addPermanentWidget(self.label_status_bar)
+        # self.status_bar.showMessage('some message')
+
         self.source_directory = "D:\\Data\\workspaces\\example\\photos"
         self.analyze_directory()
 
@@ -105,10 +114,14 @@ class Ui(QtWidgets.QMainWindow):
     
     def next_image(self):
         """ next image """
-        print('next image')
+        # print('next image')
         # self.image_label.setScaledContents(True)
         # self.current_image_path = 'D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg'
-        image_index = random.randrange(0, len(self.files)-1)
+
+        total_images = len(self.files)
+
+        image_index = random.randrange(0, total_images-1)
+        self.label_status_bar.setText(str(image_index + 1) + '/' + str(total_images))
         self.current_image_path = self.files[image_index]
 
         pixmap = QPixmap(self.current_image_path)
