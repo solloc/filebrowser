@@ -23,6 +23,9 @@ class Ui(QtWidgets.QMainWindow):
         self.menu_action_open = self.findChild(QtWidgets.QAction, 'actionOpen')
         self.menu_action_open.triggered.connect(self.action_open)
 
+        self.tool_action_next = self.findChild(QtWidgets.QAction, 'action_next')
+        self.tool_action_next.triggered.connect(self.next_image)
+
         self.source_directory = "D:\\Data\\workspaces\\example\\photos"
         self.analyze_directory()
 
@@ -99,6 +102,20 @@ class Ui(QtWidgets.QMainWindow):
                     self.files.append(file_name)
                 elif entry.is_dir():
                     self.scantree(os.path.join(target_directory, entry.name))
+    
+    def next_image(self):
+        """ next image """
+        print('next image')
+        # self.image_label.setScaledContents(True)
+        # self.current_image_path = 'D:\\Data\\workspaces\\example\\photos\\marco-testi-g50urWL9A78-unsplash.jpg'
+        image_index = random.randrange(0, len(self.files)-1)
+        self.current_image_path = self.files[image_index]
+
+        pixmap = QPixmap(self.current_image_path)
+        #self.image_label.setPixmap(pixmap)
+        width = self.image_label.width()
+        height = self.image_label.height()
+        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))               
 
 def main():
     """main executable"""

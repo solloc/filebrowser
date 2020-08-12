@@ -71,9 +71,32 @@
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_next"/>
+  </widget>
   <action name="actionOpen">
    <property name="text">
     <string>Open ...</string>
+   </property>
+  </action>
+  <action name="action_next">
+   <property name="text">
+    <string>next</string>
+   </property>
+   <property name="toolTip">
+    <string>next</string>
+   </property>
+   <property name="shortcut">
+    <string>Right</string>
    </property>
   </action>
  </widget>
