@@ -3,7 +3,7 @@
 import os
 import random
 
-class File:
+class FileModel:
     """ file model class """
 
     def __init__(self):

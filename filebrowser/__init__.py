@@ -3,7 +3,7 @@
 import sys
 import os
 import random
-from .file import File
+from .file_model import FileModel
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QPixmap
 
@@ -17,7 +17,7 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
         uic.loadUi('filebrowser/main.ui', self)
 
-        self.file = File()
+        self.file = FileModel()
         self.file.root_dir = "D:\\Data\\workspaces\\example\\photos"
 
         self.menu_action_open = self.findChild(QtWidgets.QAction, 'actionOpen')
