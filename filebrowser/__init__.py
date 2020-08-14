@@ -3,9 +3,11 @@
 import sys
 import os
 import random
-from .file_model import FileModel
+
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QPixmap
+
+from .file_model import FileModel
 
 __version__ = '0.1.0'
 
@@ -41,30 +43,34 @@ class Ui(QtWidgets.QMainWindow):
         self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
 
         self.show()
-    
+
     def resizeEvent(self, event):
         self.resize_image()
-    
+
     def resize_image(self):
         width = self.image_label.width()
         height = self.image_label.height()
         pixmap = QPixmap(self.file.get_current_file())
-        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
-    
+        self.image_label.setPixmap(pixmap.scaled(
+            width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+
     def action_open(self):
         print('open file')
         directory_name = QtWidgets.QFileDialog.getExistingDirectory(self, 'Open directory', 'c:\\')
         self.file.root_dir = directory_name
-    
+
     def next_image(self):
         """ next image """
         self.file.next()
-        self.label_status_bar.setText(str(self.file.get_current_file_number()) + '/' + str(self.file.get_total_file_number()))
+        self.label_status_bar.setText(
+            str(self.file.get_current_file_number())
+            + '/' +
+            str(self.file.get_total_file_number()))
 
         pixmap = QPixmap(self.file.get_current_file())
         width = self.image_label.width()
         height = self.image_label.height()
-        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))               
+        self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
 
 def main():
     """main executable"""
