@@ -25,6 +25,7 @@ class FileModel:
     def _analyze_dir(self):
         self._files = []
         self._scan_dir(self._root_dir)
+        random.shuffle(self._files)
 
     def _scan_dir(self, target_directory):
         with os.scandir(target_directory) as it:
@@ -37,7 +38,10 @@ class FileModel:
                     self._scan_dir(os.path.join(target_directory, entry.name))
 
     def next(self):
-        self._current_file_index = random.randrange(0, len(self._files)-1)
+        # self._current_file_index = random.randrange(0, len(self._files)-1)
+        self._current_file_index += 1
+        if self._current_file_index == len(self._files):
+            self._current_file_index = 0
 
     def get_current_file(self):
         return self._files[self._current_file_index]
