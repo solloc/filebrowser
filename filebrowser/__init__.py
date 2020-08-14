@@ -39,7 +39,7 @@ class Ui(QtWidgets.QMainWindow):
         height = self.image_label.height()
         print('w:' + str(width) + '; h:' + str(height))
 
-        pixmap = QPixmap(self.file.get_current_file())
+        pixmap = QPixmap(self.file.get_current_file().name)
         self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))
 
         self.show()
@@ -50,7 +50,7 @@ class Ui(QtWidgets.QMainWindow):
     def resize_image(self):
         width = self.image_label.width()
         height = self.image_label.height()
-        pixmap = QPixmap(self.file.get_current_file())
+        pixmap = QPixmap(self.file.get_current_file().name)
         self.image_label.setPixmap(pixmap.scaled(
             width, height, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
 
@@ -67,7 +67,7 @@ class Ui(QtWidgets.QMainWindow):
             + '/' +
             str(self.file.get_total_file_number()))
 
-        pixmap = QPixmap(self.file.get_current_file())
+        pixmap = QPixmap(self.file.get_current_file().name)
         width = self.image_label.width()
         height = self.image_label.height()
         self.image_label.setPixmap(pixmap.scaled(width, height, QtCore.Qt.KeepAspectRatio))

@@ -2,13 +2,15 @@
 
 import os
 import random
+from typing import List
+from .file import File
 
 class FileModel:
     """ file model class """
 
     def __init__(self):
         self._root_dir = ''
-        self._files = []
+        self._files: List[File] = []
         self._current_file_index = 0
 
     def _get_root_dir(self):
@@ -29,7 +31,8 @@ class FileModel:
             for entry in it:
                 if entry.is_file():
                     file_name = (os.path.join(target_directory, entry.name))
-                    self._files.append(file_name)
+                    # self._files.append(file_name)
+                    self._files.append(File(file_name))
                 elif entry.is_dir():
                     self._scan_dir(os.path.join(target_directory, entry.name))
 
