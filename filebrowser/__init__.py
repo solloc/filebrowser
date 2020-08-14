@@ -3,7 +3,7 @@
 import sys
 import os
 import random
-from filebrowser.file import File
+from .file import File
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QPixmap
 
