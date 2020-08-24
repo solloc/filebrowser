@@ -17,7 +17,11 @@ class Ui(QtWidgets.QMainWindow):
     """UI main component"""
     def __init__(self):
         super(Ui, self).__init__()
-        uic.loadUi('filebrowser/main.ui', self)
+
+        main_form = resource_path('filebrowser/main.ui')
+
+        # uic.loadUi('./filebrowser/main.ui', self)
+        uic.loadUi(main_form, self)
 
         self.file = FileModel()
         self.file.root_dir = "D:\\Data\\workspaces\\example\\photos"
@@ -82,3 +86,14 @@ def main():
     window = Ui()
     #Ui()
     app.exec_()
+
+# Define function to import external files when using PyInstaller.
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
